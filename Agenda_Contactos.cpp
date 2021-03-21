@@ -9,9 +9,10 @@ using namespace std;
 
 struct nodo{
 	
-	int telefono;
+	int id;
 	char nombres[maxchar];
 	char direccion[maxchar];
+	int telefono;
 	char email[maxchar];
 	struct nodo *siguiente;
 	
@@ -19,23 +20,25 @@ struct nodo{
 
 typedef struct nodo *Contact;
 
-//CODIGO PARA REGISTRAR LIBRO
-void registrar_libros(Contact &lista){
+//CODIGO PARA REGISTRAR CONTACTO
+void guardar_contacto(Contact &lista){
 	system ("cls");
 	system ("color F2");
 	
 	Contact t,q = new (struct nodo);
-	cout<< "\n\n\t\t[Registro de Libros]\n";
+	cout<< "\n\n\t\t[Registro de nuevos contactos]\n";
 	cout<< "\t\t ---------------------\n";
-	cout << "\n\tDatos de libros";
-	cin.ignore();
-	cout<<"\n\n\tCodigo: ";
-	cin>>q->telefono;
+	cout << "\n\tDatos de nuevo contacto";
+	
+	cin.ignore();cout<<"\n\n\tID de contacto: ";
+	cin>>q->id;
 	cin.ignore();cout<<"\n\tNombre: ";
 	cin.getline(q->nombres,maxchar);
-	cin.ignore();cout<<"\tDescripcion: ";
+	cin.ignore();cout<<"\tDireccion: ";
 	cin.getline(q->direccion,maxchar);
-	cin.ignore();cout<<"\tEditorial: ";
+	cin.ignore();cout<<"\tTelefono: ";
+	cin>>q->telefono;
+	cin.ignore();cout<<"\n\tEmail: ";
 	cin.getline(q->email,maxchar);
 	
 	system("cls"); system ("color 0A");
@@ -53,69 +56,77 @@ void registrar_libros(Contact &lista){
 	}	
 }
 
-//CODIGO PARA MOSTRAR LIBRO
-void mostrar_libros(Contact mostrar){
+//CODIGO PARA MOSTRAR CONTACTOS
+void mostrar_contactos(Contact mostrar){
 	int i =1;
 	while(mostrar!=NULL){
-		cout<< "Mostrar libro";
-		cout<< "Datos del libro "<<i<<"";
-		cout << "Codigo: "<<mostrar->telefono<<endl;
-		cout << "Codigo: "<<mostrar->nombres<<endl;
-		cout << "Codigo: "<<mostrar->direccion<<endl;
-		cout << "Codigo: "<<mostrar->email<<endl;	
+		cout<< "Mostrar Contactos";
+		cout<< "Datos del contacto "<<i<<""<<endl;
+		
+		cout << "ID: "<<mostrar->id<<endl;
+		cout << "Nombre: "<<mostrar->nombres<<endl;
+		cout << "Direccion: "<<mostrar->direccion<<endl;
+		cout << "Telefono: "<<mostrar->telefono<<endl;
+		cout << "Email: "<<mostrar->email<<endl;	
 		
 		mostrar= mostrar->siguiente,
 		i++;
 	}
 }
 
-//CODIGO PARA ELIMINAR LIBRO
-void eliminar_libros (Contact eliminar){
-	int cod;
-	Contact t,q;
-	q=eliminar;
-	cout<< "Eliminar libro";
-	cout<< "Digitar codigo del libro: ";
+//CODIGO PARA ELIMINAR CONTACTO
+void eliminar_contacto(Contact &eliminar){
+ 
+    int cod;
+    Contact q,t;
+    q=eliminar;
+ 
+    cout<<"\n\n\n\tELIMINAR CONTACTO";
+    cout<<"\n\n\tINGRESE EL CODIGO:"; 
 	cin>>cod;
-		while(q!=NULL){
-		if(q->telefono==cod){
-			if(q==eliminar)
-				eliminar=eliminar->siguiente;
-			else
-				t->siguiente=q->siguiente;
-				delete(q);
-				cout<<"Se elimino";	
-				return;
-			}else{
-				t=q;
-				q=q->siguiente;
-			}
-		}
-		if(q==NULL)
-		cout<<"Codigo incorrecto";
+	
+    while(q!=NULL){
+ 
+            if(q->id==cod){
+                if(q==eliminar)
+                    eliminar=eliminar->siguiente;
+                else
+                    t->siguiente=q->siguiente;
+                delete(q);
+                cout<<"\n\n\tCONTACTO ELIMINADO\n";
+                return;
+            }else {
+                t=q;
+                q=q->siguiente;
+            }
+    }
+    if(q==NULL)
+        cout<<"\n\tCODIGO INCORRECTO\n";
 }
 
-void buscar_libros(Contact buscar){
+void buscar_contacto(Contact buscar){
 	int cod;
 	Contact q;
 	q=buscar;
-	cout<<"\n\n\n\tBUSCAR LIBRO EN LA BIBLIOTECA";
-    cout<<"\n\n\tINGRESE EL CODIGO:"; cin>>cod;
+	cout<<"\n\n\n\tBUSCAR CONTACTO";
+    cout<<"\n\n\tIngrese el ID:"; cin>>cod;
     while(q!=NULL){
-    if(q->telefono==cod){
+    if(q->id==cod){
                 system("cls");
-                cout<<"\n\tDATOS DEL LIBRO  ";
+                cout<<"\n\tDATOS DEL CONTACTO  ";
                 cout<<"\n\t--------------------";
-                cout<<"\n\n\tCODIGO   : "<<q->telefono<<endl;
-                cout<<"\n\tNOMBRE  : "<<q->nombres<<endl;
-                cout<<"\tDESCRIPCION: "<<q->direccion<<endl;
-                cout<<"\tEDITORIAL: "<<q->email<<endl;
+                
+                cout<<"\n\n\tID  : "<<q->id<<endl;
+                cout<<"\tNOMBRE  : "<<q->nombres<<endl;
+                cout<<"\tDIRECCION: "<<q->direccion<<endl;
+                cout<<"\tTELEFONO  : "<<q->telefono<<endl;
+                cout<<"\tEMAIL: "<<q->email<<endl;
                 cout<<"\n";
                 break;
     
             }else {
                 q=q->siguiente;
-                //cout<<"\nLibro no encontrado\n"; break;
+                cout<<"\nEl contacto no fue encontrado\n"; break;
         }
 }
     
@@ -127,8 +138,8 @@ void menu_opcion(void){
 		system ("color 9");//Para dar color al fondo de pantalla y los caracteres.
 	//cout<<"          같같같같같같같같같같같같같같"<< endl;
 	cout<<" "<< endl;
-	cout<< "        MENU PRINCIPAL BIBLIOTECA"<< endl;
-	cout<<"       같같같같같같같같같같같같같"<< endl;
+	cout<< "        MENU PRINCIPAL DE AGENDA DE CONTACTOS"<< endl;
+	cout<<"       ****************************************"<< endl;
 	cout<<" "<< endl;        
 	
 		cout<<"	1. Registrar contactos"<<endl;
@@ -153,39 +164,33 @@ int main(void){
 		cin >>opc;
 		
 		switch(opc){
-			case 1: registrar_libros(lista);
-				cout<<"El libro "/*<<guardar_libro<<*/" se guardo con exito!!"<<endl; // SE DEBE GUARDAR EN DB
+			case 1: guardar_contacto(lista);
+				cout<<"El contacto "/*<<guardar_libro<<*/" se guardo con exito!!"<<endl; // SE DEBE GUARDAR EN DB
 				//cout<<" "<<endl;
 				system("pause");
 				break;
 		}
 		
 		switch(opc){
-			case 2: mostrar_libros(lista);
+			case 2: mostrar_contactos(lista);
 			system("pause");	
 			break;
 		}
 		
 		switch(opc){
-			case 3: //actualizar_libros(lista);
+			case 3: eliminar_contacto(lista);
 			system("pause");
 				break;
 		}
 		
 		switch(opc){
-			case 4:eliminar_libros(lista);
+			case 4: buscar_contacto(lista);
 			system("pause");
 				break;
 		}
 		
 		switch(opc){
-			case 5: buscar_libros(lista);
-			system("pause");
-				break;
-		}
-		
-		switch(opc){
-			case 6:
+			case 5:
 				//SALIR
 				break;
 		}
